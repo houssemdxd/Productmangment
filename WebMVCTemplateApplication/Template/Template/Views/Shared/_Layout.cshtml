@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <title>Doc Stream Solutions</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+    <link href="~/css/alertify.core.css" rel="stylesheet" />
+    <link href="~/css/alertify.default.css" rel="stylesheet" />
+    <link href="~/css/site.css?v=1.0" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <main role="main" >
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/js/jquery-2.1.4.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/alertify.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

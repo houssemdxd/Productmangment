@@ -1,0 +1,223 @@
+﻿@model Template.Models.Entities.Article
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-xs-12">
+        <label title="Add New Article" id="addarticle" class="btn btn-white btn-primary pull-right" onclick="showModelAddArticle()">
+            <i class="ace-icon fa fa-plus"></i>
+            Add Article
+        </label>
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border" id="legend">List Article</legend>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Designation
+                        </th>
+                        <th>
+                            Categorie
+                        </th>
+                        <th>
+                            Prix
+                        </th>
+                        <th>
+                            Date Fabrication
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.ListArticle)
+                    {
+                        <tr>
+                            <td>
+                                @item.Designation
+                            </td>
+                            <td>
+                                @item.Categorie
+                            </td>
+                            <td>
+                                @item.Prix
+                            </td>
+                            <td>
+                                @if (item.DateFabrication !=null)
+                                {
+                                    @item.DateFabrication.Date.ToString("dd/MM/yyyy")
+                                }
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-2 tools action-buttons">
+                                        <a href="#" class="blue" title="Update Article" id="idupdateArticle" onclick="showModelUpdateArticle(@item.Id)">
+                                            <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2 tools action-buttons">
+                                        <a href="#" class="red" title="Delete Article" id="idDeleteArticle" onclick="showModelDeleteArticle(@item.Id)">
+                                            <i class="ace-icon fa fa-trash-o bigger-140"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</div>
+<div class="modal fade" id="ModalDeleteArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog centmodel widthmodel" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="modal-header" style="background-color:#478fca;padding:4px">
+                        <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Delete Article</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <h3><i class="ace-icon fa fa-hand-o-right blue bigger-120"></i>Are you sure wanting to delete this ?</h3>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn  btn-sm btn-default" onclick="hideModelDeleteArticle()"><i class="ace-icon fa fa-times"></i>Close</button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="DeleteArticle()"><i class="ace-icon fa fa-check"></i>Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalAddArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog centmodel" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form id="form">
+                        <div class="modal-header" style="background-color:#478fca;padding:4px">
+                            <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Add Article</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <label class="control-label">Designation<font color="red">*</font></label>
+                                    </div>
+                                    <div>
+                                        <input type="text" asp-for="Designation" class="form-control" placeholder="Designation" />
+                                        @Html.ValidationMessageFor(model => model.Designation)
+                                    </div>
+
+                                    <div>
+                                        <label class="control-label">Categorie</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="Categorie" class="form-control" placeholder="Categorie" />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label class="control-label">Prix</label>
+                                        </div>
+                                        <div>
+                                            <input type="number" id="Prix" class="form-control" placeholder="Prix" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="control-label">Date Fabrication</label>
+                                    </div>
+                                    <div>
+                                        <input type="date" id="DateFabrication" class="form-control" placeholder="Date Fabrication" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn  btn-sm btn-default" onclick="hideModelAddArticle()"><i class="ace-icon fa fa-times"></i>Close</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="AddArticle(form)"><i class="ace-icon fa fa-check"></i>Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ModalUpdateArticle" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog centmodel" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <form id="formupdate">
+                        <div class="modal-header" style="background-color:#478fca;padding:4px">
+                            <h4 class="modal-title text-center" style="color:white !important" id="exampleModalLongTitle">Update Article</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size:22px;color:white !important;top:5px;right:20px;position:absolute;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div>
+                                        <label class="control-label">Designation<font color="red">*</font></label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="updatedesignation" asp-for="Designation" class="form-control" placeholder="Designation" />
+                                        @Html.ValidationMessageFor(model => model.Designation)
+                                    </div>
+
+                                    <div>
+                                        <label class="control-label">Categorie</label>
+                                    </div>
+                                    <div>
+                                        <input type="text" id="updatecategorie" class="form-control" placeholder="Categorie" />
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label class="control-label">Prix</label>
+                                        </div>
+                                        <div>
+                                            <input type="number" id="updateprix" class="form-control" placeholder="Prix" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="control-label">Date Fabrication</label>
+                                    </div>
+                                    <div>
+                                        <input type="date" id="updatedatefabrication" class="form-control" placeholder="Date Fabrication" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn  btn-sm btn-default" onclick="hideModelUpdateArticle()"><i class="ace-icon fa fa-times"></i>Close</button>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="UpdateArticle(formupdate)"><i class="ace-icon fa fa-check"></i>Edit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/site.js?v=1.0"></script>
+}
